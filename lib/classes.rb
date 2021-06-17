@@ -54,7 +54,7 @@ class Game
                      correctWord
                    end
     @guessWord = if guessWord.empty?
-                   Array.new(@correctWord.length-1, '_')
+                   Array.new(@correctWord.length, '_')
                  else
                    guessWord
                  end
@@ -64,7 +64,7 @@ class Game
 
   def random_word
     File.open('wordlist.txt') do |file|
-      file.readlines.sample.gsub!("\n", '')
+      file.readlines.sample.gsub!("\n", '').gsub!("\r", '')
     end
   end
 
@@ -78,7 +78,7 @@ class Game
     until @mistakes == 8 || @guessWord == @correctWord
       guess = make_guess
       return game_save if guess == 'save'
-	p @correctWord
+      
       check_guess(guess)
       Display.guess(guess, @guessWord, @wrongGuesses, @mistakes)
     end
