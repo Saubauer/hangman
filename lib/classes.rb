@@ -28,7 +28,7 @@ class Display
     puts "Word: #{word.join('')}
 		"
     puts "Wrong guesses: #{wrong.join('')}" unless wrong.empty?
-    unless mistake == 0
+    unless mistake.zero?
       puts "and mistakes: #{mistake} / 8
     "
     end
@@ -37,7 +37,7 @@ class Display
   def self.game_end(win, word)
     puts ''
     puts 'You won!' if win == 1
-    puts 'You lose!' if win == 0
+    puts 'You lose!' if win.zero?
     puts ''
     puts "Word was: #{word.join('')}"
     gets
@@ -48,7 +48,7 @@ end
 class Game
   def initialize(mistakes = 0, correctWord = 0, wrongGuesses = [], guessWord = [])
     dict_cleaning('5desk.txt') unless File.exist?('wordlist.txt')
-    @correctWord = if correctWord == 0
+    @correctWord = if correctWord.zero?
                      random_word.split('')
                    else
                      correctWord
@@ -151,9 +151,10 @@ class Main
 
     input = gets.chomp
 
-    if input.downcase == 'n' || input.downcase == 'new'
+    case input.downcase
+    when 'n', 'new'
       new_game
-    elsif input.downcase == 'load' || input.downcase == 'l'
+    when 'load', 'l'
       game_load
     else
       Display.goodbye
@@ -183,7 +184,7 @@ class Main
       start
     end
 
-    data = JSON.load @save
+    data = JSON.parse @save
     @game = Game.new(data['mistakes'], data['correctWord'], data['wrongGuesses'], data['guessWord'])
     @game.game_load
   end
