@@ -7,7 +7,7 @@ module Basic
 
     dict.each do |line|
       line.gsub!("\n", '')
-      wordlist.push(line.downcase) if line.length > 4 && line.length < 13
+      wordlist.push(line.downcase) if line.length > 5 && line.length < 12
     end
 
     File.open('wordlist.txt', 'w') do |file|
