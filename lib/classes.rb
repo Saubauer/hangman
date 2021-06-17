@@ -48,7 +48,7 @@ end
 class Game
   def initialize(mistakes = 0, correctWord = 0, wrongGuesses = [], guessWord = [])
     dict_cleaning('5desk.txt') unless File.exist?('wordlist.txt')
-    @correctWord = if correctWord.zero?
+    @correctWord = if correctWord == 0
                      random_word.split('')
                    else
                      correctWord
