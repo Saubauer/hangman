@@ -6,8 +6,8 @@ module Basic
     wordlist = []
 
     dict.each do |line|
-      line.gsub!("\n", '')
-      wordlist.push(line.downcase) if line.length > 5 && line.length < 12
+      line.gsub!("\n", '').gsub!("\r", '')
+      wordlist.push(line.downcase) if line.length > 4 && line.length < 13
     end
 
     File.open('wordlist.txt', 'w') do |file|

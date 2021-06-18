@@ -64,7 +64,7 @@ class Game
 
   def random_word
     File.open('wordlist.txt') do |file|
-      file.readlines.sample.gsub!("\n", '').gsub!("\r", '')
+      file.readlines.sample.gsub!("\n", '')
     end
   end
 
@@ -123,12 +123,13 @@ class Game
                      })
     puts 'Enter save name'
     savename = gets.chomp
+    savename.gsub!(/[^a-zA-z0-9]/,"")
 
     filename = "sav/#{savename}.json"
     File.open(filename, 'w') do |file|
       file.puts save
     end
-    $main.start
+    return $main.start
   end
 
   def game_load
@@ -169,8 +170,16 @@ class Main
 
   def game_load
     cls
+    unless Dir.exist?("sav")
+      puts "No saves available"
+      sleep(1)
+      return start
+    end
     @save = nil
-    puts 'Enter save name'
+    puts "available saves: #{Dir.entries("sav").join(" ")}
+    "
+    
+    puts 'Enter save name without extension'
     savename = gets.chomp
 
     filename = "sav/#{savename}.json"
@@ -181,7 +190,7 @@ class Main
     else
       puts "File doesn't exist"
       sleep(1)
-      start
+      return start
     end
 
     data = JSON.parse @save
